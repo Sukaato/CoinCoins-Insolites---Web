@@ -1,13 +1,13 @@
 {
-  "name": "Stencil Starter",
-  "short_name": "Stencil",
+  "name": "CoinCoins Insolites",
+  "short_name": "CoinCoins Insolites",
   "start_url": "/",
   "display": "standalone",
   "icons": [{
-    "src": "assets/icon/icon.png",
+    "src": "assets/img/icon.svg",
     "sizes": "512x512",
-    "type": "image/png"
+    "type": "image/svg"
   }],
-  "background_color": "#16161d",
-  "theme_color": "#16161d"
+  "background_color": "#3BB6B7",
+  "theme_color": "#3BB6B7"
 }
