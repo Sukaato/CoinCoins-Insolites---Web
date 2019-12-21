@@ -1,4 +1,5 @@
 import { Component, h, Host, State } from '@stencil/core';
+import { get, set } from 'cookies-manager';
 
 
 @Component({
@@ -8,22 +9,31 @@ import { Component, h, Host, State } from '@stencil/core';
 })
 export class AppRoot {
 
-  @State() lang: string = "fr";
+  @State() lang: string;
 
-  private navLang() {
-    const NAV_LANG = navigator.language.toLowerCase();
-    return NAV_LANG === "fr" || NAV_LANG === "fr-fr" ? "fr" : "en";
-}
+  componentDidRender() {
+    get("userLang").then((result: {key: string, value: string}) => {
+      this.lang = result.value;
 
-componentWillLoad() {
-  this.lang = this.navLang();
-}
+    }).catch(() => {
+      let navLang = navigator.language.toLowerCase();
+      let lang = navLang === "fr" || "fr-fr" ? "fr" : "en";
 
+      this.lang = lang;
+      set({key: "userLang", value: lang, expire: 31, path: '/'}).then(() => {
+        console.log('ok cookie');
+      }).catch(() => {
+        console.log('error cookie');
+      });
+    });
+  }
 
   render() {
     return (
       <Host>
-        <coincoins-header lang={this.lang}></coincoins-header>
+        <coincoins-header userLang={this.lang}>
+          <lang-switcher userLang={this.lang} onChangeLang={(e) => this.lang = e.detail} slot="lang-switch"/>
+        </coincoins-header>
         <p>Je suis un text de test</p>
 
         <main>
