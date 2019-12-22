@@ -1,5 +1,4 @@
-import { Component, h, Watch, Prop, Event, EventEmitter } from '@stencil/core';
-import { set } from 'cookies-manager';
+import { Component, h, Prop, Event, EventEmitter, State, Watch } from '@stencil/core';
 
 
 @Component({
@@ -10,51 +9,49 @@ import { set } from 'cookies-manager';
 export class LangSwitcher {
 
   img: HTMLImageElement;
-  langMenu: HTMLUListElement;
 
   @Prop() userLang: string;
   @Watch('userLang')
-  whenLangChange(newValue: string) {
-    this.img.src = `../../assets/img/${newValue}.svg`;
+  onUserLangChange(newValue: string) {
     this.toggleLangMenu();
+    this.changeLang.emit(newValue);
+    this.img.src = `../../assets/img/${newValue}.svg`;
   }
+
+  @State() state: string;
 
   @Event() changeLang: EventEmitter<string>;
 
-  componentDidRender() {
-    this.setLang(this.userLang);
-    this.langMenu.setAttribute("data-state", "close")
-  }
-
   private toggleLangMenu() {
-    this.langMenu.getAttribute("data-state") === "close" 
-      ? this.langMenu.setAttribute("data-state", "open")
-      : this.langMenu.setAttribute("data-state", "close");
+    this.state === "close" ? this.state = "open" : this.state = "close";
   }
 
   private setLang(userLang: string) {
     this.userLang = userLang;
-    this.setCookie(userLang);
-    this.changeLang.emit(userLang);
   }
 
-  private setCookie(userLang: string) {
-    set({key: "userLang", value: userLang, expire: 31, path: '/'});
+  componentDidRender() {
+    this.setLang(this.userLang);
   }
 
   render() {
     return (
       <div>
-        <img ref={(e) => this.img = e} onClick={() => this.toggleLangMenu()} alt=""/>
-        <ul ref={(e) => this.langMenu = e}>
+        <div onClick={() => this.toggleLangMenu()}>
+          <img ref={(e) => this.img = e} alt=""/>
+        </div>
+        <ul data-state={this.state}>
+          {this.userLang !== "fr" && 
           <li onClick={() => this.setLang("fr")}>
             <img src="../../assets/img/fr.svg" alt="Francais"/>
-            <span>Francais</span>
-          </li>
+            <span>Français</span>
+          </li>}
+
+          {this.userLang !== "en" && 
           <li onClick={() => this.setLang("en")}>
-            <img src="../../assets/img/en.svg" alt="English"/>
+            <img src="../../assets/img/en.svg" alt="Francais"/>
             <span>English</span>
-          </li>
+          </li>}
         </ul>
       </div>
     );
