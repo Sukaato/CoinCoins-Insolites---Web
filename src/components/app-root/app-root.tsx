@@ -1,4 +1,4 @@
-import { Component, h, Host, State } from '@stencil/core';
+import { Component, h, Host, State, Listen } from '@stencil/core';
 import { get, set } from 'cookies-manager';
 
 
@@ -9,30 +9,36 @@ import { get, set } from 'cookies-manager';
 })
 export class AppRoot {
 
-  @State() lang: string;
+  @State() userLang: string;
+
+  @Listen('changeLang')
+  onChangeLang(userLang: CustomEvent) {
+    this.userLang = userLang.detail;
+    this.setCookie(userLang.detail);
+  }
+
+  private setCookie(userLang: string) {
+    if (userLang) set({key: "userLang", value: userLang, expire: 31, path: '/'});
+  }
 
   componentDidRender() {
     get("userLang").then((result: {key: string, value: string}) => {
-      this.lang = result.value;
+      this.userLang = result.value;
 
     }).catch(() => {
       let navLang = navigator.language.toLowerCase();
-      let lang = navLang === "fr" || "fr-fr" ? "fr" : "en";
+      let userLang = navLang === "fr" || "fr-fr" ? "fr" : "en";
 
-      this.lang = lang;
-      set({key: "userLang", value: lang, expire: 31, path: '/'}).then(() => {
-        console.log('ok cookie');
-      }).catch(() => {
-        console.log('error cookie');
-      });
+      this.userLang = userLang;
+      this.setCookie(userLang);
     });
   }
 
   render() {
     return (
       <Host>
-        <coincoins-header userLang={this.lang}>
-          <lang-switcher userLang={this.lang} onChangeLang={(e) => this.lang = e.detail} slot="lang-switch"/>
+        <coincoins-header userLang={this.userLang}>
+          <lang-switcher userLang={this.userLang} slot="lang-switch"/>
         </coincoins-header>
         <p>Je suis un text de test</p>
 
