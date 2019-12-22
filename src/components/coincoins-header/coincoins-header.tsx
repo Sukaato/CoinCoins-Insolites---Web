@@ -7,29 +7,29 @@ import { Component, h, Prop, Listen, State } from '@stencil/core';
 })
 export class CoincoinsHeader {
 
-  menu: HTMLMenuElement;
   nav: HTMLElement;
 
   @Prop() userLang: string;
 
-  @State() selected: number = null;
+  @State() state: string = "close";
 
   @Listen('resize', {target: 'window'})
   resizeDocument() {
-    if (document.body.offsetWidth >= 910) {
-      this.menu.setAttribute("data-state", "close");
-      this.nav.setAttribute("style", "");
-    }
+    if (document.body.offsetWidth >= 910) this.closeMenu();
   }
 
   private stateMenu() {
-    if (this.menu.getAttribute("data-state") === "close") {
-      this.menu.setAttribute("data-state", "open");
+    if (this.state === "close") {
+      this.state = "open";
       this.nav.style.height = `${this.nav.scrollHeight}px`;
     } else {
-      this.menu.setAttribute("data-state", "close");
-      this.nav.setAttribute("style", "");
+      this.closeMenu();
     }
+  }
+
+  private closeMenu() {
+    this.state = "close";
+    this.nav.setAttribute("style", "");
   }
 
   render() {
@@ -40,23 +40,31 @@ export class CoincoinsHeader {
           <h1>CoinCoins Insolites</h1>
         </div>
         <div>
-          <menu ref={e => this.menu = e} data-state="close">
+          <menu data-state={this.state}>
             <div class="icon menu-buger" onClick={() => this.stateMenu()}>
               <span></span>
             </div>
             <nav ref={e => this.nav = e}>
               <ul>
                 <li>
-                  <a href="#home"> {this.userLang === "fr" ? "accueil" : "home"} </a>
+                  <a href="#home">
+                    <span>{this.userLang === "fr" ? "accueil" : "home"}</span>
+                  </a>
                 </li>
                 <li>
-                  <a href="#presentation"> {this.userLang === "fr" ? "présentation" : "presentation"} </a>
+                  <a href="#presentation">
+                    <span>{this.userLang === "fr" ? "présentation" : "presentation"}</span>
+                  </a>
                 </li>
                 <li>
-                  <a href="#about"> {this.userLang === "fr" ? "qui sommes nous" : "about us"} </a>
+                  <a href="#about">
+                    <span>{this.userLang === "fr" ? "qui sommes nous" : "about us"}</span>
+                  </a>
                 </li>
                 <li>
-                  <a href="#download"> {this.userLang === "fr" ? "téléchager notre application" : "download our application"} </a>
+                  <a href="#download">
+                    <span>{this.userLang === "fr" ? "téléchager notre application" : "download our application"}</span>
+                  </a>
                 </li>
               </ul>
             </nav>
