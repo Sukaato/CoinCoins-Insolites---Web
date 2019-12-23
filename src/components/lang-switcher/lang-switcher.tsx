@@ -26,14 +26,6 @@ export class LangSwitcher {
     this.state === "close" ? this.state = "open" : this.state = "close";
   }
 
-  private setLang(userLang: string) {
-    this.userLang = userLang;
-  }
-
-  componentDidRender() {
-    this.setLang(this.userLang);
-  }
-
   render() {
     return (
       <div>
@@ -42,13 +34,13 @@ export class LangSwitcher {
         </div>
         <ul data-state={this.state}>
           {this.userLang !== "fr" && 
-          <li onClick={() => this.setLang("fr")}>
+          <li onClick={() => this.userLang = "fr"}>
             <img src="../../assets/img/fr.svg" alt="Francais"/>
             <span>Français</span>
           </li>}
 
           {this.userLang !== "en" && 
-          <li onClick={() => this.setLang("en")}>
+          <li onClick={() => this.userLang = "en"}>
             <img src="../../assets/img/en.svg" alt="Francais"/>
             <span>English</span>
           </li>}

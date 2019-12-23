@@ -18,7 +18,7 @@ export class AppRoot {
   }
 
   private setCookie(userLang: string) {
-    if (userLang) set({key: "userLang", value: userLang, expire: 31, path: '/'});
+    if (userLang) set({key: "userLang", value: userLang, expire: 31});
   }
 
   componentDidRender() {
