@@ -9,9 +9,10 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'www',
+      empty: false
       // comment the following line to disable service workers in production
-      serviceWorker: null,
-      baseUrl: 'https://myapp.local/'
+      // serviceWorker: null,
+      // baseUrl: 'https://myapp.local/'
     }
   ],
   plugins: [
