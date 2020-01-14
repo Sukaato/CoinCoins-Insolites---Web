@@ -1,29 +1,55 @@
-import { Component, h } from '@stencil/core';
+import { Component, h, Host, State, Listen } from '@stencil/core';
+import { get, set } from 'cookies-manager';
 
 
 @Component({
   tag: 'app-root',
-  styleUrl: 'app-root.css',
+  styleUrl: 'app-root.scss',
   shadow: true
 })
 export class AppRoot {
 
+  @State() userLang: string;
+
+  @Listen('changeLang')
+  onChangeLang(userLang: CustomEvent) {
+    this.userLang = userLang.detail;
+    this.setCookie(userLang.detail);
+  }
+
+  private setCookie(userLang: string) {
+    if (userLang) set({key: "userLang", value: userLang, expire: 31});
+  }
+
+  componentDidRender() {
+    get("userLang").then((result: {key: string, value: string}) => {
+      this.userLang = result.value;
+
+    }).catch(() => {
+      let navLang = navigator.language.toLowerCase();
+      let userLang = navLang === "fr" || "fr-fr" ? "fr" : "en";
+
+      this.userLang = userLang;
+      this.setCookie(userLang);
+    });
+  }
+
   render() {
     return (
-      <div>
-        <header>
-          <h1>Stencil App Starter</h1>
-        </header>
+      <Host>
+        <coincoins-header userLang={this.userLang}>
+          <lang-switcher userLang={this.userLang} slot="lang-switch"/>
+        </coincoins-header>
+        <p>Je suis un text de test</p>
 
         <main>
           <stencil-router>
             <stencil-route-switch scrollTopOffset={0}>
-              <stencil-route url='/' component='app-home' exact={true} />
-              <stencil-route url='/profile/:name' component='app-profile' />
+              <stencil-route url='/' component='coincoins' exact={true} />
             </stencil-route-switch>
           </stencil-router>
         </main>
-      </div>
+      </Host>
     );
   }
 }

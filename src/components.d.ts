@@ -7,56 +7,59 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-import {
-  MatchResults,
-} from '@stencil/router';
+
 
 export namespace Components {
-  interface AppHome {}
-  interface AppProfile {
-    'match': MatchResults;
-  }
   interface AppRoot {}
+  interface CoincoinsHeader {
+    'userLang': string;
+  }
+  interface LangSwitcher {
+    'userLang': string;
+  }
 }
 
 declare global {
 
-
-  interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {}
-  var HTMLAppHomeElement: {
-    prototype: HTMLAppHomeElement;
-    new (): HTMLAppHomeElement;
-  };
-
-  interface HTMLAppProfileElement extends Components.AppProfile, HTMLStencilElement {}
-  var HTMLAppProfileElement: {
-    prototype: HTMLAppProfileElement;
-    new (): HTMLAppProfileElement;
-  };
 
   interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {}
   var HTMLAppRootElement: {
     prototype: HTMLAppRootElement;
     new (): HTMLAppRootElement;
   };
+
+  interface HTMLCoincoinsHeaderElement extends Components.CoincoinsHeader, HTMLStencilElement {}
+  var HTMLCoincoinsHeaderElement: {
+    prototype: HTMLCoincoinsHeaderElement;
+    new (): HTMLCoincoinsHeaderElement;
+  };
+
+  interface HTMLLangSwitcherElement extends Components.LangSwitcher, HTMLStencilElement {}
+  var HTMLLangSwitcherElement: {
+    prototype: HTMLLangSwitcherElement;
+    new (): HTMLLangSwitcherElement;
+  };
   interface HTMLElementTagNameMap {
-    'app-home': HTMLAppHomeElement;
-    'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
+    'coincoins-header': HTMLCoincoinsHeaderElement;
+    'lang-switcher': HTMLLangSwitcherElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface AppHome {}
-  interface AppProfile {
-    'match'?: MatchResults;
-  }
   interface AppRoot {}
+  interface CoincoinsHeader {
+    'userLang'?: string;
+  }
+  interface LangSwitcher {
+    'onChangeLang'?: (event: CustomEvent<string>) => void;
+    'userLang'?: string;
+  }
 
   interface IntrinsicElements {
-    'app-home': AppHome;
-    'app-profile': AppProfile;
     'app-root': AppRoot;
+    'coincoins-header': CoincoinsHeader;
+    'lang-switcher': LangSwitcher;
   }
 }
 
@@ -66,9 +69,9 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-      'app-home': LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
-      'app-profile': LocalJSX.AppProfile & JSXBase.HTMLAttributes<HTMLAppProfileElement>;
       'app-root': LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+      'coincoins-header': LocalJSX.CoincoinsHeader & JSXBase.HTMLAttributes<HTMLCoincoinsHeaderElement>;
+      'lang-switcher': LocalJSX.LangSwitcher & JSXBase.HTMLAttributes<HTMLLangSwitcherElement>;
     }
   }
 }
