@@ -15,8 +15,11 @@ export namespace Components {
     'userLang': string;
   }
   interface LangSwitcher {
+    'availbleLang': {lang: string, label: string}[];
+    'state': string;
     'userLang': string;
   }
+  interface MaterialIcon {}
 }
 
 declare global {
@@ -39,10 +42,17 @@ declare global {
     prototype: HTMLLangSwitcherElement;
     new (): HTMLLangSwitcherElement;
   };
+
+  interface HTMLMaterialIconElement extends Components.MaterialIcon, HTMLStencilElement {}
+  var HTMLMaterialIconElement: {
+    prototype: HTMLMaterialIconElement;
+    new (): HTMLMaterialIconElement;
+  };
   interface HTMLElementTagNameMap {
     'app-root': HTMLAppRootElement;
     'coincoins-header': HTMLCoincoinsHeaderElement;
     'lang-switcher': HTMLLangSwitcherElement;
+    'material-icon': HTMLMaterialIconElement;
   }
 }
 
@@ -52,14 +62,18 @@ declare namespace LocalJSX {
     'userLang'?: string;
   }
   interface LangSwitcher {
+    'availbleLang'?: {lang: string, label: string}[];
     'onChangeLang'?: (event: CustomEvent<string>) => void;
+    'state'?: string;
     'userLang'?: string;
   }
+  interface MaterialIcon {}
 
   interface IntrinsicElements {
     'app-root': AppRoot;
     'coincoins-header': CoincoinsHeader;
     'lang-switcher': LangSwitcher;
+    'material-icon': MaterialIcon;
   }
 }
 
@@ -72,6 +86,7 @@ declare module "@stencil/core" {
       'app-root': LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
       'coincoins-header': LocalJSX.CoincoinsHeader & JSXBase.HTMLAttributes<HTMLCoincoinsHeaderElement>;
       'lang-switcher': LocalJSX.LangSwitcher & JSXBase.HTMLAttributes<HTMLLangSwitcherElement>;
+      'material-icon': LocalJSX.MaterialIcon & JSXBase.HTMLAttributes<HTMLMaterialIconElement>;
     }
   }
 }
