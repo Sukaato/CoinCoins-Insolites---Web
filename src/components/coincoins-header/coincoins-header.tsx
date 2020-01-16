@@ -7,7 +7,7 @@ import { Component, h, Prop, Listen, State } from '@stencil/core';
 })
 export class CoincoinsHeader {
 
-  nav: HTMLElement;
+  private nav: HTMLElement;
 
   @Prop() userLang: string;
 
