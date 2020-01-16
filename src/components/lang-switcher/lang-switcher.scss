@@ -14,17 +14,27 @@
   div {
     display: flex;
     align-items: center;
-    width: 40px;
+    // width: 60px;
     height: 40px;
     position: relative;
 
-    > div {
+    > button {
+      display: flex;
+      align-items: center;
       height: initial;
+      border: none;
+      position: relative;
       padding: 12px 8px;
+      background: none;
+      outline: none;
       cursor: pointer;
 
       > img {
         @extend %img;
+      }
+
+      > material-icon {
+        transition: 175ms ease-in 0ms;
       }
     }
 
@@ -38,15 +48,9 @@
       right: 0;
       padding: 8px 0;
       background: rgb(255, 255, 255);
+      box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.26);
       pointer-events: none;
       transition: 175ms ease-in 0ms;
-
-      &[data-state="open"] {
-        top: 24px;
-        opacity: 1;
-        pointer-events: all ;
-        box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.26);
-      }
 
       > li {
         display: flex;
@@ -83,9 +87,21 @@
         }
       }
     }
+
+    @include respond-to('medium') {
+      margin-left: 24px;
+    }
+  }
+}
+
+:host-context([state="open"]){
+  material-icon {
+    transform: rotateX(180deg);
   }
 
-  @include respond-to('medium') {
-    margin-left: 24px;
+  ul {
+    top: 24px;
+    opacity: 1;
+    pointer-events: all ;
   }
 }

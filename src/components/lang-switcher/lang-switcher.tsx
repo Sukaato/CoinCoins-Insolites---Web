@@ -1,4 +1,4 @@
-import { Component, h, Prop, Event, EventEmitter, State, Watch } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Prop, Watch } from '@stencil/core';
 
 
 @Component({
@@ -8,17 +8,18 @@ import { Component, h, Prop, Event, EventEmitter, State, Watch } from '@stencil/
 })
 export class LangSwitcher {
 
-  img: HTMLImageElement;
+  private img: HTMLImageElement;
+
+  @Prop() availbleLang: {lang: string, label: string}[];
 
   @Prop() userLang: string;
   @Watch('userLang')
   onUserLangChange(newValue: string) {
-    this.toggleLangMenu();
     this.changeLang.emit(newValue);
     this.img.src = `../../assets/img/${newValue}.svg`;
   }
 
-  @State() state: string;
+  @Prop({reflect: true}) state: string = "close";
 
   @Event() changeLang: EventEmitter<string>;
 
@@ -26,24 +27,28 @@ export class LangSwitcher {
     this.state === "close" ? this.state = "open" : this.state = "close";
   }
 
+  private setLang(userLang: string) {
+    this.userLang = userLang;
+    this.toggleLangMenu();
+  }
+
   render() {
     return (
       <div>
-        <div onClick={() => this.toggleLangMenu()}>
+        <button onClick={() => this.toggleLangMenu()}>
           <img ref={(e) => this.img = e} alt=""/>
-        </div>
-        <ul data-state={this.state}>
-          {this.userLang !== "fr" && 
-          <li onClick={() => this.userLang = "fr"}>
+          <material-icon>keyboard_arrow_down</material-icon>
+        </button>
+        <ul>
+          <li onClick={() => this.setLang("fr")}>
             <img src="../../assets/img/fr.svg" alt="Francais"/>
             <span>Français</span>
-          </li>}
+          </li>
 
-          {this.userLang !== "en" && 
-          <li onClick={() => this.userLang = "en"}>
+          <li onClick={() => this.setLang("en")}>
             <img src="../../assets/img/en.svg" alt="Francais"/>
             <span>English</span>
-          </li>}
+          </li>
         </ul>
       </div>
     );
