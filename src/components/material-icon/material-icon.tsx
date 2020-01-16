@@ -1,4 +1,4 @@
-import { Component, h, Prop, Host } from '@stencil/core';
+import { Component, h, Host } from '@stencil/core';
 
 
 @Component({
