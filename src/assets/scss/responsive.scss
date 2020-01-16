@@ -1,5 +1,5 @@
 @mixin respond-to($breakpoint) {
-  $raw-query: map-get($breakpoints, $breakpoint);
+  $raw-query: map-get($map: $breakpoints, $key: $breakpoint);
 
   @if $raw-query {
     $query: if(
