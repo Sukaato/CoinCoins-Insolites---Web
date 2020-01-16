@@ -1,4 +1,4 @@
-import { Component, h, Host } from '@stencil/core';
+import { Component, h, Host, Prop } from '@stencil/core';
 
 
 @Component({
@@ -8,12 +8,12 @@ import { Component, h, Host } from '@stencil/core';
 })
 export class MaterialIcon {
 
+  @Prop({reflect: true}) name: string;
+
   render() {
     return (
       <Host>
-        <i>
-          <slot />
-        </i>
+        <i>{this.name}</i>
       </Host>
     );
   }

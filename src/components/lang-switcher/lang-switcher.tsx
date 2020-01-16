@@ -37,7 +37,7 @@ export class LangSwitcher {
       <div>
         <button onClick={() => this.toggleLangMenu()}>
           <img ref={(e) => this.img = e} alt=""/>
-          <material-icon>keyboard_arrow_down</material-icon>
+          <material-icon name="keyboard_arrow_down" />
         </button>
         <ul>
           <li onClick={() => this.setLang("fr")}>
