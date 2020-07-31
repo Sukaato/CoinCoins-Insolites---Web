@@ -3,13 +3,23 @@ footer{
     color: white;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+}
+#footerLogo img{
+    width: 50%;
+    height: 50%;
 }
 
 #reseaux img{
+    width: 90%;
+    height: 90%;
+}
+
+#reseaux{
+    display: flex;
+    justify-content: space-between;
     width: 15%;
-    height: 15%;
 }
 
 .descriptionProfile{
@@ -29,4 +39,3 @@ footer{
     margin-bottom: 5%;
     font-size: 50px;
 }
-
